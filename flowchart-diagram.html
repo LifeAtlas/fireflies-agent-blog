@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fireflies Project Flowchart</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .title {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 40px;
+            font-size: 2.5em;
+            font-weight: bold;
+        }
+        
+        .flowchart {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+        }
+        
+        .flow-row {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+        
+        .flow-node {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            min-width: 200px;
+            max-width: 280px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            border: 3px solid #e9ecef;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .flow-node:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.15);
+        }
+        
+        .start-node {
+            background: linear-gradient(135deg, #00b894, #00a085);
+            color: white;
+            border-color: #00a085;
+        }
+        
+        .process-node {
+            background: linear-gradient(135deg, #74b9ff, #0984e3);
+            color: white;
+            border-color: #0984e3;
+        }
+        
+        .decision-node {
+            background: linear-gradient(135deg, #fdcb6e, #e17055);
+            color: white;
+            border-color: #e17055;
+            clip-path: polygon(20% 0%, 80% 0%, 100% 50%, 80% 100%, 20% 100%, 0% 50%);
+            padding: 30px 40px;
+        }
+        
+        .end-node {
+            background: linear-gradient(135deg, #fd79a8, #e84393);
+            color: white;
+            border-color: #e84393;
+        }
+        
+        .ai-node {
+            background: linear-gradient(135deg, #a29bfe, #6c5ce7);
+            color: white;
+            border-color: #6c5ce7;
+        }
+        
+        .integration-node {
+            background: linear-gradient(135deg, #55a3ff, #3742fa);
+            color: white;
+            border-color: #3742fa;
+        }
+        
+        .node-icon {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+            display: block;
+        }
+        
+        .node-title {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .node-desc {
+            font-size: 0.9em;
+            line-height: 1.4;
+            opacity: 0.9;
+        }
+        
+        .flow-arrow {
+            font-size: 2em;
+            color: #74b9ff;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        
+        .flow-arrow-horizontal {
+            font-size: 2em;
+            color: #74b9ff;
+            font-weight: bold;
+            margin: 0 20px;
+        }
+        
+        .branch-container {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            max-width: 1200px;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .branch {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            flex: 1;
+            min-width: 250px;
+        }
+        
+        .branch-label {
+            background: #f8f9fa;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-weight: bold;
+            color: #495057;
+            border: 2px solid #dee2e6;
+        }
+        
+        .parallel-container {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+            width: 100%;
+            max-width: 1000px;
+        }
+        
+        .download-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(45deg, #74b9ff, #0984e3);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            transition: transform 0.2s;
+        }
+        
+        .download-btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .legend {
+            margin-top: 40px;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #f8f9fa;
+            padding: 10px 15px;
+            border-radius: 20px;
+            border: 2px solid #dee2e6;
+        }
+        
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+        }
+        
+        @media (max-width: 768px) {
+            .flow-row {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .flow-arrow-horizontal {
+                transform: rotate(90deg);
+                margin: 20px 0;
+            }
+            
+            .branch-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .parallel-container {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="download-btn" onclick="downloadAsImage()">📸 Download as JPG</button>
+    
+    <div class="container" id="flowchart">
+        <h1 class="title">🔄 Fireflies Meeting Intelligence Workflow</h1>
+        
+        <div class="flowchart">
+            <!-- Start -->
+            <div class="flow-node start-node">
+                <span class="node-icon">🚀</span>
+                <div class="node-title">System Start</div>
+                <div class="node-desc">User accesses Fireflies Dashboard</div>
+            </div>
+            
+            <div class="flow-arrow">↓</div>
+            
+            <!-- Authentication -->
+            <div class="flow-node process-node">
+                <span class="node-icon">🔐</span>
+                <div class="node-title">Authentication</div>
+                <div class="node-desc">Validate Fireflies API key and establish secure session</div>
+            </div>
+            
+            <div class="flow-arrow">↓</div>
+            
+            <!-- Date Range Selection -->
+            <div class="flow-node process-node">
+                <span class="node-icon">📅</span>
+                <div class="node-title">Date Range Selection</div>
+                <div class="node-desc">User selects date and time range for meeting extraction</div>
+            </div>
+            
+            <div class="flow-arrow">↓</div>
+            
+            <!-- Fetch Meetings -->
+            <div class="flow-node integration-node">
+                <span class="node-icon">📡</span>
+                <div class="node-title">Fetch Meetings</div>
+                <div class="node-desc">Query Fireflies GraphQL API for meeting transcripts and metadata</div>
+            </div>
+            
+            <div class="flow-arrow">↓</div>
+            
+            <!-- Decision: Meetings Found? -->
+            <div class="flow-node decision-node">
+                <span class="node-icon">❓</span>
+                <div class="node-title">Meetings Found?</div>
+                <div class="node-desc">Check if meetings exist in selected range</div>
+            </div>
+            
+            <div class="flow-arrow">↓</div>
+            
+            <!-- Meeting Selection -->
+            <div class="flow-node process-node">
+                <span class="node-icon">📋</span>
+                <div class="node-title">Meeting Selection</div>
+                <div class="node-desc">Display available meetings with metadata and speaker information</div>
+            </div>
+            
+            <div class="flow-arrow">↓</div>
+            
+            <!-- AI Processing Pipeline -->
+            <div class="flow-node ai-node">
+                <span class="node-icon">🤖</span>
+                <div class="node-title">AI Processing Pipeline</div>
+                <div class="node-desc">LangChain workflow orchestration with Groq LLM</div>
+            </div>
+            
+            <div class="flow-arrow">↓</div>
+            
+            <!-- AI Processing Steps -->
+            <div class="parallel-container">
+                <div class="branch">
+                    <div class="branch-label">Step 1</div>
+                    <div class="flow-node ai-node">
+                        <span class="node-icon">📝</span>
+                        <div class="node-title">Summarization</div>
+                        <div class="node-desc">Generate comprehensive meeting summary with key insights</div>
+                    </div>
+                </div>
+                
+                <div class="branch">
+                    <div class="branch-label">Step 2</div>
+                    <div class="flow-node ai-node">
+                        <span class="node-icon">🔒</span>
+                        <div class="node-title">Anonymization</div>
+                        <div class="node-desc">Remove sensitive data and ensure GDPR compliance</div>
+                    </div>
+                </div>
+                
+                <div class="branch">
+                    <div class="branch-label">Step 3</div>
+                    <div class="flow-node ai-node">
+                        <span class="node-icon">✍️</span>
+                        <div class="node-title">Blog Generation</div>
+                        <div class="node-desc">Create engaging blog post from anonymized content</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="flow-arrow">↓</div>
+            
+            <!-- Content Review -->
+            <div class="flow-node process-node">
+                <span class="node-icon">👁️</span>
+                <div class="node-title">Content Review</div>
+                <div class="node-desc">User reviews generated summaries, action items, and blog content</div>
+            </div>
+            
+            <div class="flow-arrow">↓</div>
+            
+            <!-- Decision: Publish Content? -->
+            <div class="flow-node decision-node">
+                <span class="node-icon">🤔</span>
+                <div class="node-title">Publish Content?</div>
+                <div class="node-desc">User decides to publish or download content</div>
+            </div>
+            
+            <div class="flow-arrow">↓</div>
+            
+            <!-- Publishing Options -->
+            <div class="branch-container">
+                <div class="branch">
+                    <div class="branch-label">WordPress</div>
+                    <div class="flow-node integration-node">
+                        <span class="node-icon">📰</span>
+                        <div class="node-title">WordPress Publishing</div>
+                        <div class="node-desc">Publish blog post with scheduling options</div>
+                    </div>
+                </div>
+                
+                <div class="branch">
+                    <div class="branch-label">Social Media</div>
+                    <div class="flow-node integration-node">
+                        <span class="node-icon">📱</span>
+                        <div class="node-title">Social Publishing</div>
+                        <div class="node-desc">Share on Twitter/X and LinkedIn</div>
+                    </div>
+                </div>
+                
+                <div class="branch">
+                    <div class="branch-label">Download</div>
+                    <div class="flow-node process-node">
+                        <span class="node-icon">💾</span>
+                        <div class="node-title">Content Download</div>
+                        <div class="node-desc">Export content as text files</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="flow-arrow">↓</div>
+            
+            <!-- Content Management -->
+            <div class="flow-node process-node">
+                <span class="node-icon">📊</span>
+                <div class="node-title">Content Management</div>
+                <div class="node-desc">Track published content with deletion and analytics capabilities</div>
+            </div>
+            
+            <div class="flow-arrow">↓</div>
+            
+            <!-- End -->
+            <div class="flow-node end-node">
+                <span class="node-icon">🎯</span>
+                <div class="node-title">Process Complete</div>
+                <div class="node-desc">Meeting intelligence successfully processed and published</div>
+            </div>
+        </div>
+        
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-color" style="background: linear-gradient(135deg, #00b894, #00a085);"></div>
+                <span>Start/End Points</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: linear-gradient(135deg, #74b9ff, #0984e3);"></div>
+                <span>Process Steps</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: linear-gradient(135deg, #a29bfe, #6c5ce7);"></div>
+                <span>AI Processing</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: linear-gradient(135deg, #55a3ff, #3742fa);"></div>
+                <span>External Integrations</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: linear-gradient(135deg, #fdcb6e, #e17055);"></div>
+                <span>Decision Points</span>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script>
+        async function downloadAsImage() {
+            const element = document.getElementById('flowchart');
+            const canvas = await html2canvas(element, {
+                scale: 2,
+                backgroundColor: '#ffffff',
+                width: element.scrollWidth,
+                height: element.scrollHeight
+            });
+            
+            const link = document.createElement('a');
+            link.download = 'fireflies-flowchart-diagram.jpg';
+            link.href = canvas.toDataURL('image/jpeg', 0.9);
+            link.click();
+        }
+    </script>
+</body>
+</body>
+</html>

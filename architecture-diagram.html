@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fireflies Project Architecture</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .title {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 40px;
+            font-size: 2.5em;
+            font-weight: bold;
+        }
+        
+        .architecture {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+        
+        .layer {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 25px;
+            border: 2px solid #e9ecef;
+            position: relative;
+        }
+        
+        .layer-title {
+            font-size: 1.4em;
+            font-weight: bold;
+            color: #495057;
+            margin-bottom: 20px;
+            text-align: center;
+            padding: 10px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border-radius: 8px;
+        }
+        
+        .component {
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px 0;
+            border-left: 4px solid #007bff;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+        
+        .component:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        
+        .component-title {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+        
+        .component-desc {
+            font-size: 0.9em;
+            color: #6c757d;
+            line-height: 1.4;
+        }
+        
+        .tech-stack {
+            background: #e3f2fd;
+            border-left-color: #2196f3;
+        }
+        
+        .api-component {
+            background: #f3e5f5;
+            border-left-color: #9c27b0;
+        }
+        
+        .external-component {
+            background: #e8f5e8;
+            border-left-color: #4caf50;
+        }
+        
+        .data-flow {
+            margin-top: 40px;
+            padding: 30px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            border: 2px solid #e9ecef;
+        }
+        
+        .flow-title {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .flow-steps {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .flow-step {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            min-width: 150px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            position: relative;
+            flex: 1;
+            max-width: 200px;
+        }
+        
+        .flow-step::after {
+            content: '→';
+            position: absolute;
+            right: -25px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.5em;
+            color: #007bff;
+            font-weight: bold;
+        }
+        
+        .flow-step:last-child::after {
+            display: none;
+        }
+        
+        .step-number {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 10px;
+            font-weight: bold;
+        }
+        
+        .step-title {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+        
+        .step-desc {
+            font-size: 0.85em;
+            color: #6c757d;
+            line-height: 1.3;
+        }
+        
+        .legend {
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+        }
+        
+        .download-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            transition: transform 0.2s;
+        }
+        
+        .download-btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        @media (max-width: 768px) {
+            .architecture {
+                grid-template-columns: 1fr;
+            }
+            
+            .flow-steps {
+                flex-direction: column;
+            }
+            
+            .flow-step::after {
+                content: '↓';
+                right: 50%;
+                top: 100%;
+                transform: translateX(50%);
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="download-btn" onclick="downloadAsImage()">📸 Download as JPG</button>
+    
+    <div class="container" id="diagram">
+        <h1 class="title">🔥 Fireflies Meeting Intelligence System</h1>
+        
+        <div class="architecture">
+            <!-- Frontend Layer -->
+            <div class="layer">
+                <div class="layer-title">🎨 Frontend Layer</div>
+                
+                <div class="component tech-stack">
+                    <div class="component-title">Next.js 14 Application</div>
+                    <div class="component-desc">React-based web application with App Router, TypeScript, and Tailwind CSS</div>
+                </div>
+                
+                <div class="component">
+                    <div class="component-title">Authentication System</div>
+                    <div class="component-desc">Fireflies API key validation and session management</div>
+                </div>
+                
+                <div class="component">
+                    <div class="component-title">Dashboard Interface</div>
+                    <div class="component-desc">Meeting management, date filtering, and content processing UI</div>
+                </div>
+                
+                <div class="component">
+                    <div class="component-title">Theme Customizer</div>
+                    <div class="component-desc">Advanced color theme creation and management system</div>
+                </div>
+                
+                <div class="component">
+                    <div class="component-title">Publishing Interface</div>
+                    <div class="component-desc">Multi-platform content publishing with credential management</div>
+                </div>
+            </div>
+            
+            <!-- Backend Layer -->
+            <div class="layer">
+                <div class="layer-title">⚙️ Backend Layer</div>
+                
+                <div class="component tech-stack">
+                    <div class="component-title">Python Processing Engine</div>
+                    <div class="component-desc">LangChain + LangGraph for AI workflow orchestration</div>
+                </div>
+                
+                <div class="component">
+                    <div class="component-title">Meeting Extractor</div>
+                    <div class="component-desc">Fireflies API integration for transcript and metadata retrieval</div>
+                </div>
+                
+                <div class="component">
+                    <div class="component-title">AI Summarizer</div>
+                    <div class="component-desc">Groq LLM integration for intelligent meeting summarization</div>
+                </div>
+                
+                <div class="component">
+                    <div class="component-title">Content Anonymizer</div>
+                    <div class="component-desc">GDPR-compliant data privacy and sensitive information removal</div>
+                </div>
+                
+                <div class="component">
+                    <div class="component-title">Blog Post Generator</div>
+                    <div class="component-desc">AI-powered content creation from anonymized summaries</div>
+                </div>
+            </div>
+            
+            <!-- API & Integration Layer -->
+            <div class="layer">
+                <div class="layer-title">🔗 API & Integrations</div>
+                
+                <div class="component api-component">
+                    <div class="component-title">Next.js API Routes</div>
+                    <div class="component-desc">RESTful endpoints for frontend-backend communication</div>
+                </div>
+                
+                <div class="component external-component">
+                    <div class="component-title">Fireflies GraphQL API</div>
+                    <div class="component-desc">Meeting transcripts, summaries, and metadata retrieval</div>
+                </div>
+                
+                <div class="component external-component">
+                    <div class="component-title">WordPress REST API</div>
+                    <div class="component-desc">Blog post publishing with scheduling and status management</div>
+                </div>
+                
+                <div class="component external-component">
+                    <div class="component-title">Social Media APIs</div>
+                    <div class="component-desc">Twitter/X and LinkedIn content publishing and management</div>
+                </div>
+                
+                <div class="component external-component">
+                    <div class="component-title">Groq AI API</div>
+                    <div class="component-desc">High-performance LLM inference for text processing</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="data-flow">
+            <div class="flow-title">📊 Data Flow Process</div>
+            
+            <div class="flow-steps">
+                <div class="flow-step">
+                    <div class="step-number">1</div>
+                    <div class="step-title">Authentication</div>
+                    <div class="step-desc">User provides Fireflies API key for secure access</div>
+                </div>
+                
+                <div class="flow-step">
+                    <div class="step-number">2</div>
+                    <div class="step-title">Meeting Fetch</div>
+                    <div class="step-desc">Retrieve meetings from specified date/time range</div>
+                </div>
+                
+                <div class="flow-step">
+                    <div class="step-number">3</div>
+                    <div class="step-title">AI Processing</div>
+                    <div class="step-desc">Summarize, anonymize, and generate blog content</div>
+                </div>
+                
+                <div class="flow-step">
+                    <div class="step-number">4</div>
+                    <div class="step-title">Content Review</div>
+                    <div class="step-desc">User reviews generated content and summaries</div>
+                </div>
+                
+                <div class="flow-step">
+                    <div class="step-number">5</div>
+                    <div class="step-title">Multi-Platform Publishing</div>
+                    <div class="step-desc">Publish to WordPress, Twitter, and LinkedIn</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-color" style="background: #e3f2fd; border: 2px solid #2196f3;"></div>
+                <span>Technology Stack</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: #f3e5f5; border: 2px solid #9c27b0;"></div>
+                <span>API Components</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: #e8f5e8; border: 2px solid #4caf50;"></div>
+                <span>External Services</span>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script>
+        async function downloadAsImage() {
+            const element = document.getElementById('diagram');
+            const canvas = await html2canvas(element, {
+                scale: 2,
+                backgroundColor: '#ffffff',
+                width: element.scrollWidth,
+                height: element.scrollHeight
+            });
+            
+            const link = document.createElement('a');
+            link.download = 'fireflies-architecture-diagram.jpg';
+            link.href = canvas.toDataURL('image/jpeg', 0.9);
+            link.click();
+        }
+    </script>
+</body>
+</html>
