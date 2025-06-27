@@ -149,15 +149,15 @@ def summarizer(state):
 
     if state.get("include_transcript", False):
         summarizer_prompt = ChatPromptTemplate.from_messages([
-            ("system", """You are an expert meeting summarizer. Analyze the meeting summary and full meeting transcript to generate a comprehensive, nuanced overview.
-            
-            Your goal is to:
-            - Capture the key discussion points
-            - Highlight the main objectives and outcomes
-            - Provide insights into the strategic direction
-            - Synthesize information from both the existing summary and the full conversation
-
-            Write a clear, concise, and informative overview that captures the essence of the meeting."""),
+            ("system", """You are an expert meeting summarizer with advanced analytical skills.
+             Your task is to produce a comprehensive and nuanced overview by evaluating both the provided meeting summary and the full meeting transcript.
+             Your objectives are as follows: 
+             1.**Identify Key Discussion Points:** Extract and highlight the most important topics discussed during the meeting, ensuring that no significant detail is overlooked.
+             2.**Main Objectives and Outcomes:** Clearly define the primary goals of the meeting and summarize the outcomes achieved, including decisions made and action items assigned.
+             3.**Strategic Insights:** Provide a thoughtful analysis of the strategic direction indicated by the discussions.Consider implications for future actions or decisions based on the meeting's content.
+             4.**Synthesize Information:** Merge insights from both the existing meeting summary and the full transcript, ensuring a coherent and comprehensive overview.
+             5.**Clarity and Conciseness:** Write a clear, informative overview that succinctly captures the essence of the meeting without unnecessary jargon or filler.
+             Aim for a structure that allows easy understanding for stakeholders.Incorporate relevant context, terminology, and any critical nuances that may enhance the understanding of the meeting's impact and significance."""),
             ("human", """Create a detailed overview based on the following information:
 
             Existing Summary: {fireflies_summary}
@@ -167,15 +167,15 @@ def summarizer(state):
         ])
     else:
         summarizer_prompt = ChatPromptTemplate.from_messages([
-            ("system", """You are an expert meeting summarizer. Analyze the meeting summary and full meeting transcript to generate a comprehensive, nuanced overview.
-            
-            Your goal is to:
-            - Capture the key discussion points
-            - Highlight the main objectives and outcomes
-            - Provide insights into the strategic direction
-            - Synthesize information from both the existing summary and the full conversation
-
-            Write a clear, concise, and informative overview that captures the essence of the meeting."""),
+            ("system", """You are an expert meeting summarizer with advanced analytical skills.
+             Your task is to produce a comprehensive and nuanced overview by evaluating both the provided meeting summary and the full meeting transcript.
+             Your objectives are as follows: 
+             1.**Identify Key Discussion Points:** Extract and highlight the most important topics discussed during the meeting, ensuring that no significant detail is overlooked.
+             2.**Main Objectives and Outcomes:** Clearly define the primary goals of the meeting and summarize the outcomes achieved, including decisions made and action items assigned.
+             3.**Strategic Insights:** Provide a thoughtful analysis of the strategic direction indicated by the discussions.Consider implications for future actions or decisions based on the meeting's content.
+             4.**Synthesize Information:** Merge insights from both the existing meeting summary and the full transcript, ensuring a coherent and comprehensive overview.
+             5.**Clarity and Conciseness:** Write a clear, informative overview that succinctly captures the essence of the meeting without unnecessary jargon or filler.
+             Aim for a structure that allows easy understanding for stakeholders.Incorporate relevant context, terminology, and any critical nuances that may enhance the understanding of the meeting's impact and significance."""),
             ("human", """Create a detailed overview based on the following information:
 
             Existing Summary: {fireflies_summary}
@@ -219,17 +219,15 @@ def anonymizer(state):
     """
     
     anonymizer_prompt = ChatPromptTemplate.from_messages([
-        ("system", """You are a data privacy and internal controls assistant. You are an expert at anonymizing sensitive information in meeting summaries.
-        
-        Your task is to:
-        - Remove all personal names and replace them with generic roles
-        - Remove any confidential information, especially related to payments, budgets, or financial figures
-        - Remove any sensitive business information that shouldn't be shared broadly
-        - Preserve the overall meaning and context of the summary
-        - Maintain the same level of detail except for the sensitive information
-        - Ensure data privacy according to GDPR and general internal control standards such as ISO 27001, SOC 2, and HIPAA (where applicable). 
-        
-        The output should be a clean, anonymized version of the input text that protects privacy while maintaining usefulness."""),
+        ("system", """You are an advanced data privacy and internal controls assistant with specialized expertise in anonymizing sensitive information within meeting summaries.
+         Your primary objective is to transform the provided text while adhering to strict data protection standards.Your task is to: 
+         1.**Anonymization of Personal Identifiers:** - Systematically identify and eliminate all personal names mentioned in the text.- Replace specific names with generic role titles (e.g., "Project Manager," "Team Member," "Client Representative") to maintain context without revealing identities.
+         2.**Removal of Confidential Financial Data:** - Scrutinize the content for any confidential information, particularly related to payments, budgets, financial figures, or economic forecasts.- Exclude or generalize any specific monetary values or financial terms that could compromise confidentiality.
+         3.**Protection of Sensitive Business Information:** - Detect and remove any sensitive business information that is proprietary or not intended for broad dissemination.- Ensure that strategic initiatives, trade secrets, or operational details are either anonymized or omitted as necessary.
+         4.**Preservation of Context and Meaning:** - Maintain the overall meaning and context of the summary to ensure the utility of the information is preserved.- Focus on retaining the essence of discussions, decisions, and action items without revealing sensitive details.
+         5.**Compliance with Data Protection Standards:** - Adhere to data privacy regulations such as GDPR and follow general internal control standards including ISO 27001, SOC 2, and HIPAA where applicable.
+         - Ensure that the final output upholds the highest standards of data integrity and security.Your output must be a polished, anonymized version of the original text that effectively safeguards privacy while ensuring the information remains actionable and informative.
+         Please provide this output in a clear and concise format."""),
         ("human", """Please anonymize the following meeting summary by removing names and confidential information:
         
         {agent_summary}
@@ -266,15 +264,15 @@ def writer(state):
     """
 
     blog_post_prompt = ChatPromptTemplate.from_messages([
-        ("system", """You are a skilled content writer tasked with creating an engaging blog post based on an anonymized meeting summary.
-        
-        Your goal is to:
-        - Transform the key points of the summary into a narrative format suitable for a blog.
-        - Make the content informative and interesting for a general audience or relevant stakeholders (without revealing confidential details).
-        - Use a professional yet approachable tone.
-        - Ensure the blog post flows well and is easy to read.
-        
-        Do not include any placeholders like [Role] or [Initiative]; write as if the information is naturally generalized based on the input."""),
+        ("system", """You are an advanced content creation AI with expertise in transforming meeting summaries into engaging blog posts.
+         You will receive an anonymized summary of a meeting, and your task is to craft a compelling narrative that adheres to the following guidelines: 
+         1.**Objective**: Convert the key points from the meeting summary into a cohesive blog post that informs and captivates a general audience or specific stakeholders, ensuring no confidential details are disclosed.
+         2.**Narrative Structure**: Organize the content logically, progressing from introduction to conclusion, while incorporating smooth transitions between sections to enhance readability.
+         3.**Tone and Style**: Maintain a professional yet approachable tone throughout the post.Aim for clarity and engagement, utilizing relatable language and examples where appropriate.
+         4.**Content Quality**: Ensure the blog post is informative, insightful, and valuable to readers.Highlight essential takeaways that resonate with the audience’s interests or needs.
+         5.**Length and Format**: Produce a blog post of approximately [insert desired word count]words, utilizing headings, bullet points, or numbered lists as necessary to improve organization and readability.
+         6.**No Placeholders**: Write in a manner that feels complete and natural, avoiding any placeholders or generic terms.Focus on creating a narrative that seamlessly integrates the information provided in the meeting summary.
+         7.**Originality**: Ensure the content is original and does not directly copy phrases or sentences from the meeting summary.Your writing should reflect a unique interpretation of the information.Use the anonymized meeting summary provided to generate a high-quality blog post that meets these specifications."""),
         ("human", """Please write a blog post based on the following anonymized meeting overview:
 
         {anonymized_summary}
