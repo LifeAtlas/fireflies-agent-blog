@@ -330,9 +330,32 @@ agent_response = agent.invoke({
     "blog_post": ""
 })
 
-agent_summary = agent_response['agent_summary'][0]['overview']
-anonymized_summary = agent_response['agent_summary_anonymized'][0]['anonymized_overview']
-blog_post = agent_response['blog_post']
+agent_summary_raw = agent_response.get('agent_summary')
+print("agent_response:", agent_response)
+print("agent_summary type:", type(agent_response.get('agent_summary'))) 
+
+# agent_summary = agent_response['agent_summary'][0]['overview']
+# anonymized_summary = agent_response['agent_summary_anonymized'][0]['anonymized_overview']
+# blog_post = agent_response['blog_post']
+
+agent_summary_raw = agent_response.get('agent_summary')
+if isinstance(agent_summary_raw, str):
+    print("❌ Summarizer failed:", agent_summary_raw)
+    agent_summary = "No summary generated due to error."
+else:
+    agent_summary = agent_summary_raw[0]['overview']
+
+anonymized_raw = agent_response.get('agent_summary_anonymized')
+if isinstance(anonymized_raw, str):
+    print("❌ Anonymizer failed:", anonymized_raw)
+    anonymized_summary = "No anonymized summary generated."
+else:
+    anonymized_summary = anonymized_raw[0]['anonymized_overview']
+
+blog_post = agent_response.get('blog_post')
+if isinstance(blog_post, str) and blog_post.startswith("Failed"):
+    print("❌ Blog post generation failed:", blog_post)
+    blog_post = "Blog post could not be generated due to prior errors."
 
 # Save files
 with open('agent_summary.txt', 'w') as f:

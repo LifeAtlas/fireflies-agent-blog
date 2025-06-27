@@ -144,10 +144,10 @@ class FirefliesMeetingExtractor:
 
         os.makedirs(output_dir, exist_ok=True)
 
-        with open(os.path.join(output_dir, 'fireflies_summary.json'), 'w') as file:
-            json.dump(summary, file, indent=2)
+        with open(os.path.join(output_dir, 'fireflies_summary.json'), 'w', encoding='utf-8') as file:
+            json.dump(summary, file, indent=2, ensure_ascii=False)
 
-        with open(os.path.join(output_dir, 'meeting_transcript.txt'), 'w') as file:
+        with open(os.path.join(output_dir, 'meeting_transcript.txt'), 'w', encoding='utf-8') as file:
             file.write(transcript)
 
         return {
