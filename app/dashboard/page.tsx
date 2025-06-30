@@ -235,7 +235,7 @@ export default function Dashboard() {
 
     try {
       const apiKey = sessionStorage.getItem("fireflies_api_key")
-      const response = await fetch("/api/process-meeting", {
+      const response = await fetch("http://localhost:8000/process-meeting", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
